@@ -13,6 +13,7 @@ const priceInput = document.getElementById("price")
 // const updatedAt = Date.now().getTime()
 
 
+
 form.addEventListener('submit', async (event) =>{
     event.preventDefault();
     const product = {
@@ -22,17 +23,21 @@ form.addEventListener('submit', async (event) =>{
         imageUrl: imageUrlInput.value,
         price: priceInput.value
     }
+
+    const idProductNuovo = document.getElementById('id-product')
+
     try {
-        if(product._id){
-            const response = await fetch(`${apiUrl}${product._id}`, {
-                method: 'PATCH',
+        if(idProductNuovo.innerHTML){
+            const response = await fetch(`${apiUrl}${idProductNuovo.innerHTML}`, {
+                method: 'PUT',
                 body: JSON.stringify(product),
                 headers: new Headers ({
+                    "Authorization": `Bearer ${apiKey}`,
                     'Content-type': 'application/json; charset=UTF-8'
                 })
             })
             if (response.ok) {
-                window.location.href = 'formAggiunta.html?status=edit-ok'
+                window.location.href = `backend.html?status=edit-ok`
             } else {
                 alert('Errore durante la modifica dell\'prodotto')
             }
@@ -45,12 +50,12 @@ form.addEventListener('submit', async (event) =>{
                     "Content-type" : 'application/json; charset=UTF-8'
                 })
             })
-            window.location.href = 'backend.html?status=aggiunta-prodotto'
+            window.location.href = `backend.html?status=aggiunta-prodotto`
         }
     } catch (error) {
         console.log(error);
     }
-    })
+})
 
 async function getToken () {
     try{
@@ -113,7 +118,6 @@ async function deleteProduct(deleteProductId) {
 }
 
 
-
 function titoloPage (titolo) {
     const titlePage = document.getElementById(`page-title`)
     titlePage.textContent = titolo ? `Modifica Prodotto` : `Crea Prodotto`
@@ -124,10 +128,8 @@ function goBack() {
 }
 
 
-//esempio alessandro
 async function getProductData(idProdotto) {
     const idProductNuovo = document.getElementById('id-product')
-    // idProductNuovo.value = 
     try {
         const response = await fetch(`${apiUrl}${idProdotto}`,{
             headers: {
@@ -143,4 +145,11 @@ async function getProductData(idProdotto) {
     }catch (error) {
         console.log('Errore nel recupero degli prodotti: ', error);
     }
+    buildPageTitle(nameInput)
 }
+
+function buildPageTitle(nameInput) {
+    const pageTitle = document.getElementById('page-title')
+    pageTitle.textContent = nameInput ? 'Modifica utente' : 'Crea nuovo utente'
+}
+

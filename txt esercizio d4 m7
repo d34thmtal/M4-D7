@@ -84,3 +84,7 @@ Solitamente
 1. Ti manca un field nel corpo
 2. Hai una “duplicate key”, cioè il nome del prodotto esiste già
 3. Hai inviato il tipo sbagliato di dati (una stringa invece di un numero o simili)
+
+
+
+
