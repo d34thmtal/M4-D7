@@ -3,13 +3,18 @@ async function getToken() {
         const response = await fetch("https://striveschool-api.herokuapp.com/api/product/", 
         {
             headers: {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM2ZjI0YzMzYjE1MjAwMTQ3NjE3OWEiLCJpYXQiOjE2ODE1ODA0NzcsImV4cCI6MTY4Mjc5MDA3N30.YevDVPQs1MA3oaDE9O5TQT6vUMFjW6w4Ahi_tx2zkEM"
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM2ZjI0YzMzYjE1MjAwMTQ3NjE3OWEiLCJpYXQiOjE2ODE3MzY4MjIsImV4cCI6MTY4Mjk0NjQyMn0.mUapuxMbdtuyrZx-onFCQmLaZp-vXsqwdMDrb1pOgMY"
             }
         });
         const data = await response.json();
-        prodottiAggiunti = data
-        cardProdact(prodottiAggiunti)
-        console.log(data);
+
+        // prodottiAggiunti = data
+        // cardProdact(prodottiAggiunti)
+        setTimeout(() =>{
+            document.querySelector('.spinner-container').classList.add("d-none")
+            cardProdact(data);
+            }, 1000);
+            console.log("vedi prodottodata", data);
     } 
     catch (error) {
         console.log('Errore nel recupero dei prodotti: ', error);
@@ -32,7 +37,7 @@ function cardProdact(prodottiAggiunti) {
                 <h5 class="card-title">${element.name}</h5>
             </div>
             <ul class="list-group list-group-light list-group-small">
-                <li class="list-group-item px-4 asin">${element.id}</li>
+                <li class="list-group-item px-4 asin">ID: ${element._id}</li>
                 <li class="list-group-item px-4 prezzo d-flex justify-content-between">€ ${element.price} 
                 <i class="heart fa-heart fa-regular "></i>
                 </li>
@@ -40,7 +45,7 @@ function cardProdact(prodottiAggiunti) {
             </ul>
             <div class="card-body btn-group">
             <button onclick="addCarrello(event)" class="btn btn-sm btn-outline-secondary btn-carrello">Aggiungi al carrello </button>
-            <button onclick="nascondiCard(event)" class="btn btn-sm btn-outline-secondary btn-nascondi">Nascondi</button>
+            <button onclick="discoverMore('${element._id}')" class="btn btn-sm btn-outline-secondary btn-scheda">Scheda prodotto</button>
             </div>
         </div>`
 
@@ -50,5 +55,10 @@ function cardProdact(prodottiAggiunti) {
 }
 
 function login() {
-    window.location.href = 'backend.html'
+    window.location.href = 'backend.html?aggiungi-prodotto'
 }
+
+function discoverMore(elem) {
+    window.location.href = `prodotto.html?id=${elem}`
+}
+

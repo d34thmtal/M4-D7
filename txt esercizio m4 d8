@@ -11,8 +11,8 @@ Le task di oggi:
 – Nella frontpage, aggiungi un loader che sia visibile mentre l’API elabora i dati.
 – Cliccando su un prodotto, l’utente deve essere reindirizzato ad una pagina prodotto. Passa l’id come query string nell’URL.
 – Nella pagina prodotto, mostra le informazioni del prodotto su cui si è cliccato. Puoi prendere le informazioni dall’endpoint “product/IL TUO ID QUI”
-– Nel backoffice, aggiungi la funzionalità per modificare un prodotto e un pulsante per eliminarlo.
-– Aggiungi una validazione dei prodotti in face di creazione o modifica usando gli alert di bootstrap
+– ok Nel backoffice, aggiungi la funzionalità per modificare un prodotto e un pulsante per eliminarlo.
+– ok Aggiungi una validazione dei prodotti in face di creazione o modifica usando gli alert di bootstrap
 
 l prodotto deve essere strutturato così:
 

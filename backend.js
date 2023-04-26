@@ -50,10 +50,15 @@ const priceInput = document.getElementById("price")
 //     }
 // })
 
+
+
 form.addEventListener('submit', async (event) =>{
     event.preventDefault();
+    const isFormValid = handleFormValidation()
+    if(!isFormValid) return false
+
+    // checktxt()
     const product = {
-        // _id: idProductNuovo.value,
         name: nameInput.value,
         description: descriptionInput.value,
         brand: brandInput.value,
@@ -90,6 +95,7 @@ form.addEventListener('submit', async (event) =>{
     } catch (error) {
         console.log(error);
     }
+    checktxt()
 })
 
 async function getToken () {
@@ -116,14 +122,14 @@ function tableBody(product) {
         const row = `
         <tr>
             <td id="prodotto-id" class="td-body">${element._id}</td>
-            <td class="td-body">${element.name}</td>
-            <td class="td-body">${element.description}</td>
-            <td class="td-body">${element.brand}</td>
-            <td class="td-body">${element.imageUrl}</td>
-            <td class="td-body">${element.price}</td>
-            <td class="td-body">${element.userId}</td>
-            <td class="td-body">${element.createdAt}</td>
-            <td class="td-body">${element.updetedAt}</td>
+            <td class="td-body w-25">${element.name}</td>
+            <td class="td-body w-25">${element.description}</td>
+            <td class="td-body w-25">${element.brand}</td>
+            <td class="td-body w-25">${element.imageUrl}</td>
+            <td class="td-body w-25">${element.price}</td>
+            <td class="td-body w-25">${element.userId}</td>
+            <td class="td-body w-25">${element.createdAt}</td>
+            <td class="td-body w-25">${element.updatedAt}</td>
             <td class="td-body">
                 <button class="btn btn-danger btn-xs" onclick="deleteProduct('${element._id}')">Elimina</button>
                 <button class="btn btn-dark btn-xs" onclick="getProductData('${element._id}')">Modifica</button>
@@ -141,20 +147,28 @@ async function deleteProduct(deleteProductId) {
         await fetch(`${apiUrl}${deleteProductId}`, { 
             headers: {
                 "Authorization": `Bearer ${apiKey}`,
-                // "Content-type" : 'application/json; charset=UTF-8'
+                "Content-type" : 'application/json; charset=UTF-8'
                 },
             method: 'DELETE'} );
         window.location.href = 'backend.html?status=delete-ok'
-    } catch (error) {
-        console.log('Errore durante cancellazione di questo Prodotto: ', error);
-    }
+        } catch (error) {
+            console.log('Errore durante cancellazione di questo Prodotto: ', error);
+        }
     }
 }
 
-function titoloPage (titolo) {
-    const titlePage = document.getElementById(`page-title`)
-    titlePage.textContent = titolo ? `Modifica Prodotto` : `Crea Prodotto`
+// function titoloPage (titolo) {
+//     const titlePage = document.getElementById(`page-title`)
+//     titlePage.textContent = titolo ? `Modifica Prodotto` : `Crea Prodotto`
+// }
+
+function titoloPage(titolo) {
+    const titlePage = document.getElementById(`page-title`);
+    const newTitle = titolo ? `Modifica Prodotto` : `Nuovo Prodotto`;
+    titlePage.textContent = newTitle;
+    history.pushState(null, newTitle, `?action=${newTitle}`);
 }
+
 
 function goBack() {
     window.location.href = 'index.html'
@@ -177,13 +191,15 @@ async function getProductData(idProdotto) {
     }catch (error) {
         console.log('Errore nel recupero degli prodotti: ', error);
     }
-    buildPageTitle(nameInput)
-}
+    // buildPageTitle(nameInput)
+    titoloPage (idProdotto)
+    }
 
-function buildPageTitle(nameInput) {
-    const pageTitle = document.getElementById('page-title')
-    pageTitle.textContent = nameInput ? 'Modifica utente' : 'Crea nuovo utente'
-}
+
+// function buildPageTitle(nameInput) {
+//     const pageTitle = document.getElementById('page-title')
+//     pageTitle.textContent = nameInput ? 'Modifica utente' : 'Crea nuovo utente'
+// }
 
 //autenticazione 
 // async function rinnovoToken() {
@@ -207,3 +223,68 @@ function buildPageTitle(nameInput) {
 // windows.onload = function () {
     
 // }
+
+
+// function checktxt() {
+
+//     if((nameInput.value == "") || (nameInput.value == "undefined") || (descriptionInput.value == "") || (descriptionInput.value == "undefined")  || (brandInput.value == "") || (brandInput.value == "undefined")) {
+
+
+//         // const pAllert = document.createElement("p")
+//         // const allertContent = document.createTextNode("Inserisci il testo")
+//         // pAllert.appendChild(allertContent)
+        
+//         // alert("Inserisci il testo");
+//         document.nameInput.focus()
+//         // document.descriptionInput.focus()
+//         // document.brandInput.focus()
+//         return false
+//     }
+    
+// }
+
+function validateForm() {
+    const errors = {}
+
+    const nameValue = document.getElementById('name').value
+    const descriptionValue = document.getElementById('description').value
+    const brandValue = document.getElementById('brand').value
+    const imageUrlValue = document.getElementById('image-url').value
+    const priceValue = document.getElementById('price').value
+
+    if (!nameValue) errors.name = "ERRORE, devi inserire il nome"
+    else errors.name = ""
+    if (!descriptionValue) errors.description = "ERRORE, devi inserire una descrizione"
+    else errors.description = ""
+    if (!brandValue) errors.brand = "ERRORE, devi inserire la marca"
+    else errors.brand = ""
+
+    if (!imageUrlValue) errors.url = "ERRORE, devi inserire una Url"
+    else if (!imageUrlValue.startsWith("http")) errors.url = "ERRORE, devi inserire una Url"
+    else errors.url = ""
+    if (isNaN(priceValue)) errors.price = "ERRORE, devi inserire il prezzo in cifre"
+    else if (!priceValue) errors.price = "ERRORE, devi inserire il prezzo"
+    else errors.price = ""
+
+    return {
+        errors,
+        isValid: Object.values(errors).every(value => value === "")
+    }
+}
+
+function handleFormValidation() {
+    const validation = validateForm()
+    let isValid = true;
+
+    if (!validation.isValid) {
+        for (const key in validation.errors){
+
+        const elementError = document.getElementById(`${key}-alert`)
+        elementError.textContent = '';
+        elementError.textContent = validation.errors[key];
+        }
+        isValid = false;
+    }
+    return isValid
+}
+
