@@ -2,15 +2,20 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
 }
 
-header {
-    width: 100%;
-    padding: 30px 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+nav {
+    background-color: #3e2c2c;
 }
+
+main{
+    height: auto;
+    background-color: #fbf8f8;
+}
+
+
+
 
 .table-container {
     margin: 10px 50px;
@@ -35,4 +40,9 @@ input::-webkit-inner-spin-button {
     justify-content: center;
     align-items: center;
     height: 40vh;
+    background-color: rgba(255, 255, 255, 0.151);
+}
+
+footer{
+    background-color: #edecec;
 }

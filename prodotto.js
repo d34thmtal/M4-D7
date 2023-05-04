@@ -22,7 +22,7 @@ async function prodotti() {
                     <div class="card">
                     <div class="card-img"><img src="${prod.imageUrl}" alt=""></div>
                     <div class="card-info">
-                    <p class="text-title">${prod.name}</p>
+                    <h2 class="text-title">${prod.name}</h2>
                     <p class="text-body">${prod.brand}</p>
                     </div>
                     <div class="card-footer">
