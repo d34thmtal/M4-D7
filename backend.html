@@ -31,15 +31,15 @@
     </nav>
   </header>
   <main>
-    <div class="container d-flex justify-content-between">
+    <div class="container-fluid d-flex justify-content-between position-sticky">
       <h3 id="page-title" class="resource-title">Aggiungi Prodotto</h3>
       <button class="btn btn-warning mb-3 mt-4 me-4" onclick="goBack()">Torna indietro</button>
     </div>
     <div class="container">
       <form id="user-form" novalidate>
         <div class="mb-3">
-          <label for="prodotto-id" class="form-label">Id-prodotto</label>
-          <input type="text" disabled class="form-control" id="prodotto-id">
+          <label for="prodotto-id" class="form-label d-none">Id-prodotto</label>
+          <input type="text" disabled class="form-control d-none" id="prodotto-id">
         </div>
 
         <div class="mb-3">
@@ -71,12 +71,12 @@
           <p class="text-danger" id="price-alert"></p>
         </div>
 
-        <button type="submit" class="btn btn-success btn-lg">Salva</button>
+        <button type="submit" class="btn btn-success btn-lg mb-3">Salva</button>
 
       </form>
 
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid d-flex justify-content-lg-center overflow-x-auto">
       <table id="tabella-prodotti" class="table">
         <thead>
           <tr>

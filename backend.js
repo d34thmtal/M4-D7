@@ -1,5 +1,5 @@
 const apiUrl = `https://striveschool-api.herokuapp.com/api/product/`
-const apiKey = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM2ZjI0YzMzYjE1MjAwMTQ3NjE3OWEiLCJpYXQiOjE2ODE3MzY4MjIsImV4cCI6MTY4Mjk0NjQyMn0.mUapuxMbdtuyrZx-onFCQmLaZp-vXsqwdMDrb1pOgMY`
+const apiKey = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDM2ZjI0YzMzYjE1MjAwMTQ3NjE3OWEiLCJpYXQiOjE2ODM4MTc4OTQsImV4cCI6MTY4NTAyNzQ5NH0.vd86q1eBCIgAuNwqlfZjtgXNH_evWAPzU5j6vSqvQG4`
 
 const form = document.getElementById("user-form")
 const idProductNuovo = document.getElementById('prodotto-id')
@@ -117,29 +117,39 @@ getToken()
 
 function tableBody(product) {
     const tableProd = document.getElementById('table-body');
-    tableProd .innerHTML = '';
+    tableProd.innerHTML = '';
     product.forEach((element) => {
+        const truncatedId = element._id.length > 20 ? element._id.substring(0, 17) + '...' : element._id;
+        const truncatedName = element.name.length > 20 ? element.name.substring(0, 17) + '...' : element.name;
+        const truncatedDescription = element.description.length > 30 ? element.description.substring(0, 27) + '...' : element.description;
+        const truncatedBrand = element.brand.length > 30 ? element.brand.substring(0, 27) + '...' : element.brand;
+        const truncatedImageUrl = element.imageUrl.length > 30 ? element.imageUrl.substring(0, 27) + '...' : element.imageUrl;
+        const truncatedPrice = element.price.length > 30 ? element.price.substring(0, 27) + '...' : element.price;
+        const truncatedUserId = element.userId.length > 30 ? element.userId.substring(0, 27) + '...' : element.userId;
+        const truncatedCreatedAt = element.createdAt.length > 20 ? element.createdAt.substring(0, 17) + '...' : element.createdAt;
+        const truncatedUpdatedAt = element.updatedAt.length > 20 ? element.updatedAt.substring(0, 17) + '...' : element.updatedAt;
+        
         const row = `
         <tr>
-            <td id="prodotto-id" class="td-body">${element._id}</td>
-            <td class="td-body w-25">${element.name}</td>
-            <td class="td-body w-25">${element.description}</td>
-            <td class="td-body w-25">${element.brand}</td>
-            <td class="td-body w-25">${element.imageUrl}</td>
-            <td class="td-body w-25">${element.price}</td>
-            <td class="td-body w-25">${element.userId}</td>
-            <td class="td-body w-25">${element.createdAt}</td>
-            <td class="td-body w-25">${element.updatedAt}</td>
-            <td class="td-body">
+            <td id="prodotto-id" class="td-body col">${truncatedId}</td>
+            <td class="td-body col">${truncatedName}</td>
+            <td class="td-body col">${truncatedDescription}</td>
+            <td class="td-body col">${truncatedBrand}</td>
+            <td class="td-body col">${truncatedImageUrl}</td>
+            <td class="td-body col">${truncatedPrice}</td>
+            <td class="td-body col">${truncatedUserId}</td>
+            <td class="td-body col">${truncatedCreatedAt}</td>
+            <td class="td-body col">${truncatedUpdatedAt}</td>
+            <td class="td-body col">
                 <button class="btn btn-danger btn-xs" onclick="deleteProduct('${element._id}')">Elimina</button>
                 <button class="btn btn-dark btn-xs" onclick="getProductData('${element._id}')">Modifica</button>
             </td>
         </tr>
-        `
-        tableProd.innerHTML += row
+        `;
+        tableProd.insertAdjacentHTML('beforeend', row);
     });
-    
 }
+
 
 async function deleteProduct(deleteProductId) {
     if (confirm('Sei siuro di voler eliminare questo Prodotto?')) {
