@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family:Verdana, Geneva, Tahoma, sans-serif
 
 }
 
@@ -63,4 +64,10 @@ footer {
 
 .nome{
     height: 35px;
+}
+
+h1{
+    bottom: -100px;
+    color: #fbf8f8;
+    text-align: center;
 }
